@@ -9,6 +9,7 @@
 	var_dump($_GET);
 	var_dump($_POST);
 	?>
+    <hr>
     <h2 id="login">User Login</h2>
 	<form method="POST" action="/form.php">
         <p>
@@ -51,6 +52,7 @@
             <input type="submit" name="submit" value="Send">
         </p>
     </form>
+    <hr>
     <h2>Multiple Choice Test</h2>
     <form method="POST">
         <p>What is the capital of Texas?</p>
@@ -96,11 +98,29 @@
             <input type="checkbox" id="q3r3" name="q3_response[]" value="Cloudy">
             <label for="q3r4">Snowy</label>
             <input type="checkbox" id="q3r4" name="q3_response[]" value="Snowy">
-                        
-            <p>
-                <input type="submit" value="Am I right?">
-            </p>
+        <br>
+        <label for="mscontrol">What are your favorite fruits?</label>
+        <select name="multiselect[]" id="mscontrol" multiple>
+                  <option value="A">Apple</option>
+                  <option value="B">Banana</option>
+                  <option value="O">Orange</option>
+                  <option value="K">Kiwi</option>
+              </select>      
+        <p>
+            <input type="submit" value="Am I right?">
+        </p>
     </form>
-
+    <hr>
+    <h2>Select Testing</h2>
+    <form method="POST">
+        <label for="yesno">Do you understand select elements?</label>
+        <select name="yesnoquestion" id="yesno">
+            <option value="1"selected>Yes</option>
+            <option value="0" >No</option>
+        </select>
+        <p>
+            <input type="submit" value="Submit Response">
+        </p>
+    </form>
 </body>
 </html>
