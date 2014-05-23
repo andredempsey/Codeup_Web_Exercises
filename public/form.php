@@ -42,13 +42,65 @@
             <input id="subject" name="subject" type="text" placeholder="Message Subject">
         </p>
         <p>
-            <label for="body">Message</label>
             <textarea id="body" name="body" cols="60" rows="15" placeholder = "Enter message here"></textarea>
+        <p>
+            <input type="checkbox" name="copy" id="savecopy" value="yes">
+            <label for="savecopy">Save copy of message?</label>
+        </p>
         <p>
             <input type="submit" name="submit" value="Send">
         </p>
-
-        </p>
     </form>
+    <h2>Multiple Choice Test</h2>
+    <form method="POST">
+        <p>What is the capital of Texas?</p>
+            <label for="q1r1">
+                <input type="radio" id="q1r1" name="q1_response" value="Houston">
+                Houston
+            </label>
+            <label for="q1r2">
+                <input type="radio" id="q1r2" name="q1_response" value="San Antonio">
+                San Antonio
+            </label>
+            <label for="q1r3">
+                <input type="radio" id="q1r3" name="q1_response" value="Dallas">
+                Dallas
+            </label>
+            <label for="q1r4">
+                <input type="radio" id="q1r4" name="q1_response" value="Austin">
+                Austin
+            </label>
+        <p>What is the capital of Tennessee?</p>
+            <label for="q2r1">
+                <input type="radio" id="q2r1" name="q2_response" value="Nashville">
+                Nashville
+            </label>
+            <label for="q2r2">
+                <input type="radio" id="q2r2" name="q2_response" value="Memphis">
+                Memphis
+            </label>
+            <label for="q2r3">
+                <input type="radio" id="q2r3" name="q2_response" value="Chattanooga">
+                Chattanooga
+            </label>
+            <label for="q2r4">
+                <input type="radio" id="q2r4" name="q2_response" value="Knoxville">
+                Knoxville
+            </label>
+        <p>How is the weather today?</p>
+            <label for="q3r1">Sunny</label>
+            <input type="checkbox" id="q3r1" name="q3_response[]" value="Sunny">
+            <label for="q3r2">Rainy</label>
+            <input type="checkbox" id="q3r2" name="q3_response[]" value="Rainy">
+            <label for="q3r3">Cloudy</label>
+            <input type="checkbox" id="q3r3" name="q3_response[]" value="Cloudy">
+            <label for="q3r4">Snowy</label>
+            <input type="checkbox" id="q3r4" name="q3_response[]" value="Snowy">
+                        
+            <p>
+                <input type="submit" value="Am I right?">
+            </p>
+    </form>
+
 </body>
 </html>
