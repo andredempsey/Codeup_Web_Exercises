@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>If Else JavaScript</title>
+</head>
+<body>
+	
+	<script>
+	// ignore these lines for now
+	// just know that the variable 'color' will end up with a random value from the colors array
+	var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+	var color = colors[Math.floor(Math.random()*colors.length)];
+
+	var favorite = 'green'; // todo, change this to your favorite color from the list
+	var msg="No color has been selected.";
+	// todo: Create a block of if/else statements to check for every color except indigo and violet.
+	if (color=='red') 
+	{
+		msg="Red is the color of apples (sometimes).";
+	}
+	else if (color=='orange') 
+	{
+		msg="Orange is the color of oranges.";
+	}
+	else if (color=='yellow') 
+	{
+		msg="Yellow is the color of dandelions.";
+	}
+	else if (color=='green') 
+	{
+		msg="Green is the color of the grass.";
+	}
+	else if (color=='blue') 
+	{
+		msg="Blue is the color of the sky.";
+	}
+	else
+	{
+		// todo: Have a final else that will catch indigo and violet.
+		// todo: In the else, log: I do not know anything by that color.
+		msg="I do not know anything by that color.";
+	}
+	// todo: When a color is encountered log a message that tells the color, and an object of that color.
+	//       Example: Blue is the color of the sky.
+	console.log(msg);
+	
+	// todo: Using the ternary operator, conditionally log a statement that
+	//       says whether the random color matches your favorite color.
+	var msg = (color==favorite) ? color.charAt(0).toUpperCase() + color.slice(1).toLowerCase() +  " matches my favorite color\n" : color.charAt(0).toUpperCase() + color.slice(1).toLowerCase() + " is not my favorite color.\n";
+	console.log(msg);
+	</script>
+</body>
+</html>
