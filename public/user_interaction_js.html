@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>User Interaction Example for JS</title>
+</head>
+<body>
+	<script>
+		// todo: Ask the user for their name.
+		//       Keep asking if an empty input is provided.
+		var username=null;
+
+		do {
+
+			username = prompt('What is your name?');
+
+		} while(username == null || username == "");
+
+		// todo: Show an alert message that welcomes the user based on their input.
+		alert('Hi ' + username + '!  Welcome to my interactive browser');
+
+		// todo: Ask the user if they like pizza.
+		//       Based on their answer tell show a creative alert message.
+		var response = confirm('Do you like pizza?');
+		switch(response){
+			case true:
+				alert('Great!  I love pizza too!');		
+				break;
+			default:
+				alert('That\'s too bad.  Pizza contains all of the important food groups!');
+				break;
+		}
+	</script>
+</body>
+</html>
