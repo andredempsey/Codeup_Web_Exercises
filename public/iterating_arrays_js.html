@@ -21,9 +21,15 @@
 
 		// todo:
 		// Create log statements that will print each of the names array elements individually.
+		// Modify the code that logs out the names array elements individually to instead use a for loop.
 		for (var i = 0 ; i <= names.length - 1; i++) {
 			console.log(names[i]);
 		};
+
+		// Below the for loop, use a forEach loop to print the names again.
+		names.forEach(function (element, index, array){
+		    console.log ('The name at index ' + index + ' is ' + element);
+		});
 	</script>
 </body>
 </html>
