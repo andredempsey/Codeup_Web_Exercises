@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Working with Self-Invoking Functions</title>
+</head>
+<body>
+	<script>
+		// Self-Invoking function that logs a message that says hello from the name.
+		(function () {
+			var myNameIs = 'Andre'; // todo: Fill in your name here.
+			alert(myNameIs + ' says hello!');
+		})();
+
+		// Self-Invoking function that randomly selects a number and console logs if it is even or odd
+		(function () {
+			var random = Math.floor((Math.random()*100)+1);
+			var msg = (random % 2 == 0) ? random + ' is even' : random + ' is odd';
+			alert(msg);
+		})();
+	</script>
+</body>
+</html>
