@@ -5,26 +5,33 @@ $errorMessage='';
 function addAddress($filename, $addressBook)
 {
 	$handle = fopen($filename, 'w');
+	foreach ($addressBook as $key=>$entry) 
+	{
+		$addressBook[$key]=htmlspecialchars(strip_tags($entry));
+	}
 	fputcsv($handle, $addressBook);
 	fclose($handle);
 	return $addressBook;
 }
-if (!empty($_POST)) 
+function checkFields($addressEntries, &$errorMessage)
 {
 	$missingValues=false;
-	foreach ($_POST as $key=>$entry) 
+	foreach ($addressEntries as $key=>$entry) 
 	{
-		$_POST[$key]=htmlspecialchars(strip_tags($entry));
 		if (empty($entry)&&$key!='Phone')
 		{
 			$errorMessage .= "Please enter a value for the $key field.\n<br>";
 			$missingValues = true;
 		}		
 	}
-		if (!$missingValues) 
-		{
-			$addressBook=addAddress($filename, $_POST);
-		}
+	return $missingValues;
+}
+if (!empty($_POST)) 
+{
+	if (!checkFields($_POST,$errorMessage)) 
+	{
+		$addressBook=addAddress($filename, $_POST);
+	}
 }
 ?>
 <!doctype html>
