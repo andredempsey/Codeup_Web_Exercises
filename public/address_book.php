@@ -60,6 +60,13 @@ if (!empty($_POST))
 		$_POST=[];
 	}
 }
+if (isset($_GET['delete']) && $_GET['delete']!="")
+{
+	unset($addressBook[$_GET['delete']]);
+	$addressBook=addAddress($filename, $addressBook);
+	header('Location: /address_book.php');
+	exit;
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -70,8 +77,10 @@ if (!empty($_POST))
 <body>
 	<h1>Address Book</h1>
 	<hr>
+	<form method="GET" action="address_book.php">
 	<table border =1">
 		    <tr>
+		        <th>Action</th>
 		        <th>Name</th>
 		        <th>Street</th>
 		        <th>City</th>
@@ -81,12 +90,14 @@ if (!empty($_POST))
 		    </tr>
 		    <?foreach ($addressBook as $entry => $address): ?>	
 		    <tr>
+				<td><button id='delete' name = 'delete' value = <?=$entry?>>Delete</button></td>
 				<? foreach ($address as $element=>$item): ?>
 		        <td><?=$item;?></td>
 				 <?endforeach; ?>
  		    </tr>
 		    <? endforeach; ?>
 	</table>
+	</form>
 <hr>
 	<form method="POST">
 		<p>
