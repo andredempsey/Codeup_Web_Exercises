@@ -1,14 +1,17 @@
 <?
 $errorMessage='';
 $addressBook=[];
-$address = new AddressDataStore();
-$address->filename='address_book.csv';
+$address = new AddressDataStore('address_book.csv');
 $addressBook=$address->readAddressBook();
 
 class AddressDataStore 
 {
     public $filename = '';
 
+    function __construct($fname)
+    {
+    	$this->filename=$fname;
+    }
     function readAddressBook()
     {
     	$addressBook=[];
@@ -37,9 +40,7 @@ class AddressDataStore
 		fclose($handle);
 		return $addressBook;
     }
-
 }
-
 function removeTags($addedEntry)
 {
 	foreach ($addedEntry as $key=>$entry) 
@@ -79,6 +80,33 @@ if (isset($_GET['delete']) && $_GET['delete']!="")
 	header('Location: /address_book.php');
 	exit;
 }
+
+if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) 
+{
+    // Set the destination directory for uploads
+    $uploadDir = '/vagrant/sites/codeup.dev/public/uploads/';
+    // Grab the filename from the uploaded file by using basename
+    $filename = basename($_FILES['file1']['name']);
+    // Create the saved filename using the file's original name and our upload directory
+    $savedFilename = $uploadDir . $filename;
+    // Move the file from the temp location to our uploads directory
+    move_uploaded_file($_FILES['file1']['tmp_name'], $savedFilename);
+	// Check if we saved a file
+	if ($_FILES['file1']['type']!='text/csv') //incorrect file type
+	{
+		$errorMessage = "<p><strong>The file type cannot be processed.  Please try again with a CSV file.</strong></p>";
+	} 
+	else
+	{
+		// retrieve uploaded file contents
+		$addressUpload = new AddressDataStore($savedFilename);
+		$newList=$addressUpload->readAddressBook();
+		$addressBook=array_merge($addressBook,$newList);
+		//append file contents to current todo list
+		$addressBook=$address->writeAddressBook($addressBook);
+	}
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -89,7 +117,7 @@ if (isset($_GET['delete']) && $_GET['delete']!="")
 <body>
 	<h1>Address Book</h1>
 	<hr>
-	<form method="GET" action="address_book.php">
+	<form method="GET" action="/address_book.php">
 	<table border =1">
 		    <tr>
 		        <th>Action</th>
@@ -111,7 +139,7 @@ if (isset($_GET['delete']) && $_GET['delete']!="")
 	</table>
 	</form>
 <hr>
-	<form method="POST">
+	<form method="POST" action="/address_book.php">
 		<p>
             <label for="Name">Name:</label>
             <input id="Name" name="Name" type="text" value=<?=(!empty($_POST) && $_POST['Name']!='')?$_POST['Name']:'' ?> >
@@ -127,6 +155,16 @@ if (isset($_GET['delete']) && $_GET['delete']!="")
             <input  id="addressPhone" name="Phone" type="text" placeholder="Optional">
 		</p>
 	<input type="submit" value="Add Address">
+	</form>
+	<h3>Upload File</h3>
+	<form method="POST" enctype="multipart/form-data" action="/address_book.php">
+	    <p>
+	        <label for="file1">File to upload: </label>
+	        <input type="file" id="file1" name="file1">
+	    </p>
+	    <p>
+	        <input type="submit" value="Upload">
+	    </p>
 	</form>
 	<font color="DC143C"><?= $errorMessage;?></font>
 </body>
