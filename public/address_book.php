@@ -1,12 +1,23 @@
 <?
 $filename = 'address_book.csv';
 $errorMessage='';
+$addressBook=[];
+$addressBook=getAddress($filename, $addressBook);
+function getAddress($filename, $addressBook)
+{
+	$handle = fopen($filename, 'r');
+	while(!feof($handle)) 
+	{
+		$row=fgetcsv($handle);  	
+		if (is_array($row)) 
+		{
+			$addressBook[] = $row;
+		}
+	}
+	fclose($handle);
+	return $addressBook;
+	}
 
-$addressBook = [
-    ['The White House', '1600 Pennsylvania Avenue NW', 'Washington', 'DC', '20500'],
-    ['Marvel Comics', 'P.O. Box 1527', 'Long Island City', 'NY', '11101'],
-    ['LucasArts', 'P.O. Box 29901', 'San Francisco', 'CA', '94129-0901']
-];
 function removeTags($addedEntry)
 {
 	foreach ($addedEntry as $key=>$entry) 
@@ -70,9 +81,6 @@ if (!empty($_POST))
 		    </tr>
 		    <?foreach ($addressBook as $entry => $address): ?>	
 		    <tr>
-		    	<? if (empty($address)) :?>
-		    			<?continue;?>
-		    	<?endif;?>
 				<? foreach ($address as $element=>$item): ?>
 		        <td><?=$item;?></td>
 				 <?endforeach; ?>
