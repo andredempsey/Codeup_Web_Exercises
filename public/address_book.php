@@ -1,22 +1,44 @@
 <?
-$filename = 'address_book.csv';
 $errorMessage='';
 $addressBook=[];
-$addressBook=getAddress($filename, $addressBook);
-function getAddress($filename, $addressBook)
+$address = new AddressDataStore();
+$address->filename='address_book.csv';
+$addressBook=$address->readAddressBook();
+
+class AddressDataStore 
 {
-	$handle = fopen($filename, 'r');
-	while(!feof($handle)) 
-	{
-		$row=fgetcsv($handle);  	
-		if (is_array($row)) 
+    public $filename = '';
+
+    function readAddressBook()
+    {
+    	$addressBook=[];
+        // Code to read file $this->filename
+    	$handle = fopen($this->filename, 'r');
+		while(!feof($handle)) 
 		{
-			$addressBook[] = $row;
+			$row=fgetcsv($handle);  	
+			if (is_array($row)) 
+			{
+				$addressBook[] = $row;
+			}
 		}
-	}
-	fclose($handle);
-	return $addressBook;
-	}
+		fclose($handle);
+		return $addressBook;
+    }
+
+    function writeAddressBook($addressBook) 
+    {
+        // Code to write $addresses_array to file $this->filename
+		$handle = fopen($this->filename, 'w');
+		foreach ($addressBook as $key=>$entry) 
+		{
+			fputcsv($handle, $entry);
+		}
+		fclose($handle);
+		return $addressBook;
+    }
+
+}
 
 function removeTags($addedEntry)
 {
@@ -25,16 +47,6 @@ function removeTags($addedEntry)
 		$addedEntry[$key]=htmlspecialchars(strip_tags($entry));
 	}
 	return $addedEntry;
-}
-function addAddress($filename, $addressBook)
-{
-	$handle = fopen($filename, 'w');
-	foreach ($addressBook as $key=>$entry) 
-	{
-		fputcsv($handle, $entry);
-	}
-	fclose($handle);
-	return $addressBook;
 }
 
 function checkFields($addressEntries, &$errorMessage)
@@ -56,14 +68,14 @@ if (!empty($_POST))
 	{
 		$cleanInput = removeTags($_POST);
 		array_push($addressBook,$cleanInput);
-		$addressBook = addAddress($filename, $addressBook);
+		$addressBook = $address->writeAddressBook($addressBook);
 		$_POST=[];
 	}
 }
 if (isset($_GET['delete']) && $_GET['delete']!="")
 {
 	unset($addressBook[$_GET['delete']]);
-	$addressBook=addAddress($filename, $addressBook);
+	$addressBook = $address->writeAddressBook($addressBook);
 	header('Location: /address_book.php');
 	exit;
 }
