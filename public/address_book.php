@@ -1,6 +1,5 @@
 <?
 $filename = 'address_book.csv';
-$addressBook =[];
 $errorMessage='';
 
 $addressBook = [
@@ -8,14 +7,21 @@ $addressBook = [
     ['Marvel Comics', 'P.O. Box 1527', 'Long Island City', 'NY', '11101'],
     ['LucasArts', 'P.O. Box 29901', 'San Francisco', 'CA', '94129-0901']
 ];
+function removeTags($addedEntry)
+{
+	foreach ($addedEntry as $key=>$entry) 
+	{
+		$addedEntry[$key]=htmlspecialchars(strip_tags($entry));
+	}
+	return $addedEntry;
+}
 function addAddress($filename, $addressBook)
 {
 	$handle = fopen($filename, 'w');
 	foreach ($addressBook as $key=>$entry) 
 	{
-		$addressBook[$key]=htmlspecialchars(strip_tags($entry));
+		fputcsv($handle, $entry);
 	}
-	fputcsv($handle, $addressBook);
 	fclose($handle);
 	return $addressBook;
 }
@@ -37,7 +43,9 @@ if (!empty($_POST))
 {
 	if (!checkFields($_POST,$errorMessage)) 
 	{
-		$addressBook[]=addAddress($filename, $_POST);
+		$cleanInput = removeTags($_POST);
+		array_push($addressBook,$cleanInput);
+		$addressBook = addAddress($filename, $addressBook);
 		$_POST=[];
 	}
 }
