@@ -43,10 +43,6 @@ class AddressDataStore
 		}
 		return $addressBook;
     }
-    function __destruct()
-    {
-    	echo "Class Dismissed!";
-    }
 }
 function removeTags($addedEntry)
 {
@@ -113,8 +109,6 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0)
 		$addressBook=$address->writeAddressBook($addressBook);
 	}
 }
-unset($newList);
-
 ?>
 <!doctype html>
 <html lang="en">
