@@ -8,11 +8,11 @@ class AddressDataStore
 {
     public $filename = '';
 
-    function __construct($fname)
+    public function __construct($fname)
     {
     	$this->filename=$fname;
     }
-    function readAddressBook()
+    public function readAddressBook()
     {
     	$addressBook=[];
         // Code to read file $this->filename
@@ -29,16 +29,23 @@ class AddressDataStore
 		return $addressBook;
     }
 
-    function writeAddressBook($addressBook) 
+    public function writeAddressBook($addressBook) 
     {
         // Code to write $addresses_array to file $this->filename
-		$handle = fopen($this->filename, 'w');
-		foreach ($addressBook as $key=>$entry) 
-		{
-			fputcsv($handle, $entry);
+		if (is_writable($this->filename)) 
+		{	
+			$handle = fopen($this->filename, 'w');
+			foreach ($addressBook as $key=>$entry) 
+			{
+				fputcsv($handle, $entry);
+			}
+			fclose($handle);
 		}
-		fclose($handle);
 		return $addressBook;
+    }
+    function __destruct()
+    {
+    	echo "Class Dismissed!";
     }
 }
 function removeTags($addedEntry)
@@ -106,6 +113,7 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0)
 		$addressBook=$address->writeAddressBook($addressBook);
 	}
 }
+unset($newList);
 
 ?>
 <!doctype html>
