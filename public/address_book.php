@@ -1,6 +1,6 @@
 <?
 //include the AddressDataStore class to read and write to/from address book CSV files
-include('classes/address_data_store.php');
+require_once('classes/address_data_store.php');
 $errorMessage='';
 $addressBook=[];
 $address = new AddressDataStore('address_book.csv');
