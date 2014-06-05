@@ -1,0 +1,34 @@
+div
+{
+	padding: 10px;
+	width: 150px;
+	height: 50px;
+	font-weight: bold;
+	color: white;
+	margin-bottom: 10px;
+	border: 1px solid black;
+}
+#red-box {
+	background-color: #FF0000;
+	margin-left: 0px;
+}
+#orange-box {
+	background-color: #FF7F00;
+	margin-left: 30px;
+}
+#yellow-box {
+	background-color: #FFFF00;
+	margin-left: 60px;
+}
+#green-box {
+	background-color: #00FF00;
+	margin-left: 90px;
+}
+#blue-box {
+	background-color: #0000FF;
+	margin-left: 120px;
+}
+#violet-box {
+	background-color: #824298;
+	margin-left: 150px;
+}
