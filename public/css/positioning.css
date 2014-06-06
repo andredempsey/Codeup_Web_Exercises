@@ -1,10 +1,14 @@
-header {
-	float: right;
-}
+
 #container {
 	position: relative;
 	height: 300px;
 	width: 450px;
+}
+#ribbon {
+	float: right;
+	position: fixed;
+	top: 0px;
+	right: 0px;
 }
 h1 {
 	text-align: center;
