@@ -14,41 +14,61 @@
     </ul>
     <h2 id="sub-header">Hello Again.</h2>
     <p class="sub-paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <button id="btnHeader">Change Header</button>
+    <button id="btnSubHeader">Change Sub Header</button>
+    <button id="btnList">Change List Items</button>
+    <button id="btnMission">Mission Accomplished</button>
+
 
     <script>
 
-        // todo: get the main header element by id
-        var mainHeader = document.getElementById('main-header');
+        function changeHeader (event) {
+        
+            // todo: get the main header element by id
+            var mainHeader = document.getElementById('main-header');
 
-        // todo: set inner html of mainHeader to "JavaScript is Cool"
-        mainHeader.innerHTML = "JavaScript is Cool";
+            // todo: set inner html of mainHeader to "JavaScript is Cool"
+            mainHeader.innerHTML = "JavaScript is Cool";
+        }
+        
+        function changeSubHeader (event) {
+        
+            // todo: get the sub header element by id
+            var subHeader = document.getElementById('sub-header');
 
-        // todo: get the sub header element by id
-        var subHeader = document.getElementById('sub-header');
+            // todo: set the text color of subHeader to blue
+            subHeader.style["color"]='blue';
+        }
 
-        // todo: set the text color of subHeader to blue
-        subHeader.style["color"]='blue';
+        function listChanges (event) {
+        
+            // todo: get all list items
+            var listItems = document.getElementsByTagName('li');
 
-        // todo: get all list items
-        var listItems = document.getElementsByTagName('li');
-
-        // todo: set text color on every other list item to grey
-        for (var i = 0; i < listItems.length; i++) {
-            if (i % 2!=0) {
-                listItems[i].style.color = 'grey';
+            // todo: set text color on every other list item to grey
+            for (var i = 0; i < listItems.length; i++) {
+                if (i % 2!=0) {
+                    listItems[i].style.color = 'grey';
+                }
+            // todo: set text color of li with dbid = 1 to blue
+                if (listItems[i].attributes['data-dbid'].value==1) {
+                    listItems[i].style['color'] = 'blue';
+                }
             }
-        };
-        // todo: set text color of li with dbid = 1 to blue
-        for (var i = 0; i < listItems.length; i++) {
-            if (listItems[i].attributes['data-dbid'].value==1) {
-                listItems[i].style['color'] = 'blue';
-            }
-        };
+        }
 
+        function missionAccomplished (event) {
+        
         // todo: get all elements with class name sub-paragraph
         var subParagraphs = document.getElementsByClassName('sub-paragraph');
         // todo: change the text in the first sub paragraph to "Mission Accomplished!"
         subParagraphs[0].innerHTML = "Mission Accomplished!";
+        }
+
+        document.getElementById('btnHeader').addEventListener('click', changeHeader, false);
+        document.getElementById('btnSubHeader').addEventListener('click', changeSubHeader, false);
+        document.getElementById('btnList').addEventListener('click', listChanges, false);
+        document.getElementById('btnMission').addEventListener('click', missionAccomplished, false);
 
     </script>
 
