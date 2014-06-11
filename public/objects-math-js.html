@@ -5,10 +5,12 @@
 	<title>Math Functions</title>
 </head>
 <body>
+<canvas id="myCanvas" width="1500" height="1300" style="border:1px solid #c3c3c3;">
 	<script>
 		// create a circle object
 		var circle = {
 		    radius: 3,
+		    color: 0,
 		    getArea: function () {
 		        // todo: finish this method
 		        // hint: area = pi * radius^2
@@ -18,7 +20,21 @@
 		        // todo: complete this method. if round is true, round the result to the nearest integer.
 		        var area = (round) ? Math.round(this.getArea()) : this.getArea();	
 		        console.log('Area of a circle with radius: ' + this.radius + ', is: ' + area);
+		    },
+		    drawCircle: function (posX, posY) {
+				//draw a circle based on the radius
+				var c = document.getElementById("myCanvas");
+				var ctx = c.getContext("2d");
+				var colors = ["#F00", "#0F0", "#F0F", "#00F"];
+				ctx.beginPath();
+				ctx.arc(posX, posY, this.radius, 0, 2*Math.PI);
+				ctx.stroke();
+				ctx.fillStyle =colors[this.color];
+				ctx.fill();
 		    }
+		};
+		function getRandomInt(min, max) {
+ 			 return Math.floor(Math.random() * (max - min + 1)) + min;
 		};
 
 		// log info about the circle
@@ -31,7 +47,13 @@
 		// log info about the circle
 		circle.logInfo(false);
 		circle.logInfo(true);
-
+		for (var x=0; x<1300; x+=20) {
+			for (var y=0; y < 1500; y+=20) {
+				circle.radius=getRandomInt(3,10);
+				circle.color=getRandomInt(0,3);
+				circle.drawCircle(x, y);
+			};
+		};
 	</script>
 </body>
 </html>
