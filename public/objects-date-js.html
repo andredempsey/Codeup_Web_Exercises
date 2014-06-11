@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JS Object Dates</title>
+	<script src="/js/moment.js"></script>
+</head>
+<body>
+	<script>
+		// todo:
+		// Create an array of months for printing dates without Moment.js.
+		var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 
+			'November', 'December'];
+
+	 // Create the date corresponding to your birthday using the JavaScript Date object.
+		var jsBirthday=new Date(1966,8,3);
+		// todo:
+		// Log your birthday in the format: January 1, 2014 using the JavaScript Date object.
+		// See link below for methods needed:
+		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#Getter
+
+		console.log('Here is my birthday using vanilla js: ' + months[jsBirthday.getMonth()] + " " + jsBirthday.getDate() + ", " + jsBirthday.getFullYear());
+		// create the date corresponding to your birthday using Moment.js.
+		var momentBirthday = moment("9-3-1966", "MM-DD-YYYY");
+		// todo:
+		// Log your birthday in the format: January 1, 2014 using Moment.js.
+		console.log('Here is my birthday using Moment.js: ' + moment(momentBirthday).format("MMMM D, YYYY"));
+		console.log('You were born on a ' + moment(momentBirthday).format("dddd"));
+		console.log('You were ' + ((moment(momentBirthday).isLeapYear()) ? 'born ' : 'not born ') + 'in a leap year.');
+	</script>
+	<h2>Events on <script>document.write(moment(momentBirthday).format("MMMM D, YYYY"))</script></h2>
+	
+</body>
+</html>
