@@ -5,7 +5,7 @@
 	<title>JQuery Exercises</title>
 </head>
 <body>
-    <h1 id="main-header">Hello World!</h1>
+    <h1 id="codeup">Hello World!</h1>
     <div id="first-div">
     	<ul>
         <li class = "listitem" data-dbid="1">Item 1</li>
@@ -15,62 +15,19 @@
         <li class = "listitem" data-dbid="5">Item 5</li>
     </ul>
     </div>
-    <h2 id="sub-header">Hello Again.</h2>
+    <h2>Hello Again.</h2>
     <p class="sub-paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    <button id="btnHeader">Change Header</button>
-    <button id="btnSubHeader">Change Sub Header</button>
-    <button id="btnList">Change List Items</button>
-    <button id="btnMission">Mission Accomplished</button>
-
+    <h2 class="codeup">Hello Again.</h2>
+    <p class="sub-paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <h2 class="codeup">Hello Again.</h2>
+    <p class="sub-paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <h2 class="codeup">Hello Again.</h2>
+    <p class="sub-paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    
 	<script src="/js/jquery-1.11.1.js"></script>
     <script>
-    	// var $mainHeader = $('#main-header');
-    	// alert($mainHeader.html());
-    	// var $firstDiv = $('first-div');
-    	// alert($firstDiv.html());
-    	// var $listItem = $('.listitem');
-    	// alert($listItem.html());
-    	// var $testElement = $('p');
-    	// alert($testElement.html());
-    	// $mainHeader.html("JQuery is Cool!");
-
-
-        function changeHeader (event) {
-        
-            // todo: get the main header element by id
-            var $mainHeader = $('#main-header');
-
-            // todo: set inner html of mainHeader to "JavaScript is Cool"
-            $mainHeader.html("JavaScript is Cool");
-        }
-        
-        function changeSubHeader (event) {
-        
-            // todo: get the sub header element by id
-            var $subHeader = $('#sub-header');
-
-            // todo: set the text color of subHeader to blue
-            $subHeader.css('color', 'blue');
-        }
-
-        function listChanges (event) {
-     
-            var $listItems = $('li');
-	        $listItems.css('color','blue');
-                }
-    
-        function missionAccomplished (event) {
-        
-        // todo: get all elements with class name sub-paragraph
-        var $subParagraphs = $('.sub-paragraph');
-        // todo: change the text in the first sub paragraph to "Mission Accomplished!"
-        $subParagraphs.html("Mission Accomplished!");
-        }
-
-        document.getElementById('btnHeader').addEventListener('click', changeHeader, false);
-        document.getElementById('btnSubHeader').addEventListener('click', changeSubHeader, false);
-        document.getElementById('btnList').addEventListener('click', listChanges, false);
-        document.getElementById('btnMission').addEventListener('click', missionAccomplished, false);
+    	var $subHeader=$('.codeup');
+    	$subHeader.css('border','1px red solid').html("Test");
 	</script>
 </body>
 
