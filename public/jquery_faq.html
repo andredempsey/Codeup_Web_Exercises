@@ -60,7 +60,7 @@
     <script>
 	    $('#showResponse').on('click', function(event) {
 		    	event.preventDefault();
-		    	$('dd').toggleClass('invisible');
+		    	$('dd').toggle();
 		    }
 	    );
 	    $('#fontWeightChange').on('click', function(event) {
@@ -72,7 +72,7 @@
 	    );
 		$('li').on('click', function(event) {
 		    	event.preventDefault();
-			    $(this).parent().addClass('invisible');
+			    $(this).parent().hide();
 		    }
 	    );
 	    $('dt').on('click', function(event) {
