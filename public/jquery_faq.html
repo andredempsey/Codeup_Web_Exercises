@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JQuery FAQ</title>
+	    <link rel="stylesheet" href="/css/faq.css">
+</head>
+<body>
+	<dl>
+		<dt>Why is it called the Badlands?
+			<dd class="invisible">The Lakota people were the first to call this place "mako sica" or "land bad."</dd>
+		</dt>
+		<dt>How long does it take to see the park?
+			<dd class="invisible">It depends. To fully experience most of what the Badlands has to offer, it takes two days.</dd>
+		</dt>
+		<dt>Where can I see bison?
+			<dd class="invisible">Bison live in the Badlands Wilderness Area (west side of the North Unit).</dd>
+		</dt>
+		<dt>What is the best place for sunset?
+			<dd class="invisible">Try Pinnacles Overlook, Conata Basin Overlook, Bigfoot Pass Picnic Area, and the Norbeck Pass area.</dd>
+		</dt>
+		<dt>What is the best trail?
+			<dd class="invisible">All of our trails are spectacular. You really can't go wrong! </dd>
+		</dt>
+		<dt>Does the park close?
+			<dd class="invisible">Not really.</dd>
+		</dt>
+		<dt>What about exploring the South Unit of the park?
+			<dd class="invisible">We encourage anyone interested in backcountry hiking or camping in the South Unit to notify a ranger at the White River Visitor Center to ensure your safety and that you are not trespassing on private lands.</dd>
+		</dt>
+		<dt>Do you have a Junior Ranger Program?
+			<dd class="invisible">Yes. Kids can complete a Junior Ranger Booklet year-round and earn a badge.</dd>
+		</dt>
+		<dt>Do you offer Ranger Programs or other special events?
+			<dd class="invisible">Yes. Ranger programs are offered from late-May through September. </dd>
+		</dt>
+		<dt>Are there any digs going on in the park?
+			<dd class="invisible">The Saber Site fossil quarry will open in June 2012. Visitors can watch paleontologists working at the site from 9:00 AM to 5:00 PM, 7 days a week. The site is at the Ben Reifel Visitor Center.</dd>
+		</dt>
+	</dl>
+	<a href="#" id="showResponse">Show/hide FAQ Responses</a>
+	<script src="/js/jquery-1.11.1.js"></script>
+    <script>
+	    $('#showResponse').on('click', function(event) {
+		    	event.preventDefault();
+		    	$('dd').toggleClass('invisible');
+		    }
+	    );
+	</script>
+</body>
+</html>
