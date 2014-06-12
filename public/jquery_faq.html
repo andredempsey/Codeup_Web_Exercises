@@ -39,11 +39,40 @@
 		</dt>
 	</dl>
 	<a href="#" id="showResponse">Show/hide FAQ Responses</a>
+	<h1>Parks List</h1>
+    
+    <h3 class="national-parks">Arches</h3>
+    	<ul>
+    		<li>fact1</li>
+    		<li>fact2</li>
+    		<li>fact3</li>
+    		<li>fact4</li>
+    	</ul>
+    <h3 class="national-parks">Badlands</h3>
+    	<ul>
+    		<li>fact1</li>
+    		<li>fact2</li>
+    		<li>fact3</li>
+    		<li>fact4</li>
+    	</ul>
+	<a href="#" id="fontWeightChange">Change First Item in Each List to Bold</a>
 	<script src="/js/jquery-1.11.1.js"></script>
     <script>
 	    $('#showResponse').on('click', function(event) {
 		    	event.preventDefault();
 		    	$('dd').toggleClass('invisible');
+		    }
+	    );
+	    $('#fontWeightChange').on('click', function(event) {
+		    	event.preventDefault();
+		    	$('ul').each(function () {
+			    	$(this).children().first().css('font-weight', 'bold');
+		    	});
+		    }
+	    );
+		$('li').on('click', function(event) {
+		    	event.preventDefault();
+			    $(this).parent().toggleClass('invisible');
 		    }
 	    );
 	</script>
