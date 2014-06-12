@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Whack-a-Mole</title>
+</head>
+<body>
+	<img src="/img/mole.jpeg" alt="mole">
+	<script src="/js/jquery-1.11.1.js"></script>
+    <script>
+	$('img').hide().fadeIn(3000);
+    $('img').on('click', function () {
+    	$('img').fadeOut();
+    });
+    </script>
+</body>
+</html>
