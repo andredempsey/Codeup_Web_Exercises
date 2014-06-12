@@ -75,6 +75,11 @@
 			    $(this).parent().addClass('invisible');
 		    }
 	    );
+	    $('dt').on('click', function(event) {
+		    	event.preventDefault();
+			    $(this).next('dd').toggleClass('invisible');
+		    }
+	    );
 	</script>
 </body>
 </html>
