@@ -6,6 +6,7 @@
 </head>
 <body>
 <canvas id="myCanvas" width="1500" height="1300" style="border:1px solid #c3c3c3;">
+	<script src="/js/jquery-1.11.1.js"></script>
 	<script>
 		// create a circle object
 		var circle = {
@@ -47,13 +48,19 @@
 		// log info about the circle
 		circle.logInfo(false);
 		circle.logInfo(true);
-		for (var x=0; x<1300; x+=20) {
-			for (var y=0; y < 1500; y+=20) {
-				circle.radius=getRandomInt(3,10);
-				circle.color=getRandomInt(0,3);
-				circle.drawCircle(x, y);
+		$('#myCanvas').on('click', function() {
+			var c = document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
+			ctx.clearRect(0, 0, c.width, c.height);
+			for (var x=0; x<1300; x+=20) {
+				for (var y=0; y < 1500; y+=20) {
+					circle.radius=getRandomInt(3,10);
+					circle.color=getRandomInt(0,3);
+					circle.drawCircle(x, y);
+				};
 			};
-		};
+		}
+		);
 	</script>
 </body>
 </html>
