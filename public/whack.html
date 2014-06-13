@@ -3,15 +3,187 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Whack-a-Mole</title>
+	<link rel="stylesheet" href="/css/mole.css">
+	<script src="/js/moment.js"></script>
 </head>
 <body>
-	<img src="/img/mole.jpeg" alt="mole">
+	<canvas id="myCanvas" width="1700" height="1300" style="border:1px solid #c3c3c3;"></canvas>
+	<table id="currentGame">
+	    <tr>
+	        <th>Score</th>
+	        <th>Remaining Time</th>
+	    </tr>
+	    <tr>
+	        <td id= "displayScore">0</td>
+	        <td id=	"timeRemain">60</td>
+	    </tr>
+	</table>
+	<div id="controls">
+		<span id="btnStart">Start</span>
+		<span id="btnBackground">Background</span>
+	</div>
+	<div id="gameboard">
+		<div>
+			<div class="manhole" id="manhole1"></div>
+			<div class="manhole" id="manhole2"></div>
+			<div class="manhole" id="manhole3"></div>
+			<div class="manhole" id="manhole4"></div>
+			<div class="manhole" id="manhole5"></div>
+			<div class="manhole" id="manhole6"></div>
+			<div class="manhole" id="manhole7"></div>
+			<div class="manhole" id="manhole8"></div>
+			<div class="manhole" id="manhole9"></div>
+		</div>
+	<!-- <h3>Top Scores</h3> -->
+	</div>
+		<table id="topScores">
+	    <tr>
+	        <th class="topScoreHeader">Name</th>
+	        <th class="topScoreHeader">Score</th>
+	    </tr>
+	    <tr>
+	        <td class="highScorer">Jane Doe</td>
+	        <td class="highScore">60</td>
+	    </tr>
+	    <tr>
+	        <td class="highScorer">John Doe</td>
+	        <td class="highScore">40</td>
+	    </tr>
+	    <tr>
+	        <td class="highScorer">Johnny Doe</td>
+	        <td class="highScore">40</td>
+	    </tr>
+	    <tr>
+	        <td class="highScorer">Name</td>
+	        <td class="highScore">35</td>
+	    </tr>
+	</table>
 	<script src="/js/jquery-1.11.1.js"></script>
     <script>
-	$('img').hide().fadeIn(3000);
-    $('img').on('click', function () {
-    	$('img').fadeOut();
-    });
+    	var score = 0;
+		var timeoutId = null;
+		var gameTimeId = null;
+		var timeLeft = 60;
+	    var delay = 1000; // delay time in milliseconds
+	    
+
+	// beginning of background image code
+	// create a circle object
+	    var flashTime = 100;
+		cycleBackgroundFrequency();
+		var circle = {
+		    radius: 3,
+		    color: 0,
+		    getArea: function () {
+		        // todo: finish this method
+		        // hint: area = pi * radius^2
+		        return Math.PI * Math.pow(this.radius,2);
+		    },
+		    logInfo: function (round) {
+		        // todo: complete this method. if round is true, round the result to the nearest integer.
+		        var area = (round) ? Math.round(this.getArea()) : this.getArea();	
+		        console.log('Area of a circle with radius: ' + this.radius + ', is: ' + area);
+		    },
+		    drawCircle: function (posX, posY) {
+				//draw a circle based on the radius
+				var c = document.getElementById("myCanvas");
+				var ctx = c.getContext("2d");
+				var colors = ["#F00", "#0F0", "#F0F", "#00F"];
+				ctx.beginPath();
+				ctx.arc(posX, posY, this.radius, 0, 2*Math.PI);
+				ctx.stroke();
+				ctx.fillStyle =colors[this.color];
+				ctx.fill();
+		    }
+		};
+		function getRandomInt(min, max) {
+ 			 return Math.floor(Math.random() * (max - min + 1)) + min;
+		};
+		function cycleBackgroundFrequency () {
+	        	setInterval(function () {
+				var c = document.getElementById("myCanvas");
+				var ctx = c.getContext("2d");
+				ctx.clearRect(0, 0, c.width, c.height);
+				for (var x=0; x<1700; x+=20) {
+					for (var y=0; y < 1500; y+=20) {
+						circle.radius=getRandomInt(3,10);
+						circle.color=getRandomInt(0,3);
+						circle.drawCircle(x, y);
+					};
+				};
+			}, flashTime);
+	        };
+
+		// end of background image code
+
+		//event listener to start game on btnStart trigger
+		$('#btnStart').click(function () {
+			score=0;
+			$('#displayScore').text(score);
+			gameTimer();
+			showTarget(false);
+		})
+		$('#btnBackground').click(function () {
+			$('#myCanvas').toggle();
+		})
+		// randomly shows the target
+		function showTarget (stopGame) {
+			if (stopGame) {
+				clearInterval(timeoutId);
+			}
+			else {
+				var randomPosition = Math.floor(Math.random() * (9)) + 1;
+				$('#manhole'+randomPosition).css("background-image","url('/img/mole.jpeg')");
+				clearInterval(timeoutId);
+				delay = timeLeft*50;
+				showTime(randomPosition, delay);
+				console.log (delay);
+			};
+		};
+	    //function to evaluate mouse clicks
+	    $('.manhole').click(function () {
+		    	if ($(this).css("background-image")=="url(http://codeup.dev/img/mole.jpeg)"){
+    				score++;
+    				$('#displayScore').text(score);
+	        		$(this).css("background-image","url('/img/kapow.jpeg')");	
+	        		//after a half second delay remove the feedback image	
+        			setTimeout(function () {
+        				$(this).css("background-image","url('/img/manhole.jpeg')");	
+        			}, 500);
+        				clearTimeout();
+        		}
+        		else if ($(this).css("background-image")=="url(http://codeup.dev/img/manhole.jpeg)") {
+        			//play miss sound
+        			score--;
+        			$('#displayScore').text(score);
+        		}
+    		}
+    	);
+	    //resets image to manhole cover
+		function showTime(index, delay) {
+			console.log (delay);
+            // clearInterval(timeoutId);
+            timeoutId = setInterval(function () {
+                $('#manhole'+index).css("background-image","url('/img/manhole.jpeg')");
+                showTarget(false);		
+            }, delay);
+        };
+
+        //countdown game timer
+        function gameTimer () {
+        	gameTimeId=setInterval(function () {
+                if (timeLeft!=0) {
+                	timeLeft--;
+                	// (flashTime>300)?flashTime-=100:flashTime-=300;
+	                $('#timeRemain').text(timeLeft);
+                }
+                else {
+                	alert ('GAME OVER!  Your score is ' + score);
+					clearInterval(timeoutId);
+					clearInterval(gameTimeId);
+                };
+            }, 1000);
+        };
     </script>
 </body>
 </html>
