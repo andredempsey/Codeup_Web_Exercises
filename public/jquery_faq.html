@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>JQuery FAQ</title>
-	    <link rel="stylesheet" href="/css/faq.css">
+	<link rel="stylesheet" href="/css/faq.css">
 </head>
 <body>
 	<dl>
@@ -60,7 +60,7 @@
     <script>
 	    $('#showResponse').on('click', function(event) {
 		    	event.preventDefault();
-		    	$('dd').toggle();
+		    	$('dd').slideToggle();
 		    }
 	    );
 	    $('#fontWeightChange').on('click', function(event) {
@@ -70,14 +70,14 @@
 		    	});
 		    }
 	    );
-		$('li').on('click', function(event) {
-		    	event.preventDefault();
-			    $(this).parent().hide();
-		    }
-	    );
 	    $('dt').on('click', function(event) {
 		    	event.preventDefault();
-			    $(this).next('dd').toggleClass('invisible');
+			    $(this).next('dd').slideToggle();
+		    }
+	    );
+	     $('h3').on('click', function(event) {
+		    	event.preventDefault();
+			    $(this).next('ul').slideToggle();
 		    }
 	    );
 	</script>
