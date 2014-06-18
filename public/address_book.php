@@ -4,13 +4,13 @@ require_once('classes/address_data_store.php');
 $errorMessage='';
 $addressBook=[];
 $address = new AddressDataStore('address_book.csv');
-$addressBook=$address->readAddressBook();
+$addressBook=$address->read_csv();
 
 function removeTags($addedEntry)
 {
 	foreach ($addedEntry as $key=>$entry) 
 	{
-		$addedEntry[$key]=htmlspecialchars(strip_tags($entry));
+		$addedEntry[$key]=(strip_tags($entry));
 	}
 	return $addedEntry;
 }
@@ -34,14 +34,14 @@ if (!empty($_POST))
 	{
 		$cleanInput = removeTags($_POST);
 		array_push($addressBook,$cleanInput);
-		$addressBook = $address->writeAddressBook($addressBook);
+		$addressBook = $address->write_csv($addressBook);
 		$_POST=[];
 	}
 }
 if (isset($_GET['delete']) && $_GET['delete']!="")
 {
 	unset($addressBook[$_GET['delete']]);
-	$addressBook = $address->writeAddressBook($addressBook);
+	$addressBook = $address->write_csv($addressBook);
 	header('Location: /address_book.php');
 	exit;
 }
@@ -65,10 +65,10 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0)
 	{
 		// retrieve uploaded file contents
 		$addressUpload = new AddressDataStore($savedFilename);
-		$newList=$addressUpload->readAddressBook();
+		$newList=$addressUpload->read_csv();
 		$addressBook=array_merge($addressBook,$newList);
 		//append file contents to current todo list
-		$addressBook=$address->writeAddressBook($addressBook);
+		$addressBook=$address->write_csv($addressBook);
 	}
 }
 ?>
@@ -131,5 +131,6 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0)
 	    </p>
 	</form>
 	<font color="DC143C"><?= $errorMessage;?></font>
+	&copy; Andre 2014
 </body>
 </html>
