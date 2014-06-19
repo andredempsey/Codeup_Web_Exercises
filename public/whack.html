@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<title>Whack-a-Mole</title>
 	<link rel="stylesheet" href="/css/mole.css">
-	<script src="/js/moment.js"></script>
 </head>
 <body>
 	<canvas id="myCanvas" width="1700" height="1300" style="border:1px solid #c3c3c3;"></canvas>
@@ -15,13 +14,15 @@
 	    </tr>
 	    <tr>
 	        <td id= "displayScore">0</td>
-	        <td id=	"timeRemain">60</td>
+	        <td id=	"timeRemain">10</td>
 	    </tr>
 	</table>
 	<div id="controls">
 		<span id="btnStart">Start</span>
 		<span id="btnBackground">Background</span>
 	</div>
+	<h3 id='currentLevel'>Level 1</h3>
+	<h3 id="sessionHighScore">Session High Score = 0</h3>
 	<div id="gameboard">
 		<div>
 			<div class="manhole" id="manhole1"></div>
@@ -34,55 +35,56 @@
 			<div class="manhole" id="manhole8"></div>
 			<div class="manhole" id="manhole9"></div>
 		</div>
-	<!-- <h3>Top Scores</h3> -->
 	</div>
+	<h2 id="points">+10 pts</h2>
 		<table id="topScores">
 	    <tr>
 	        <th class="topScoreHeader">Name</th>
-	        <th class="topScoreHeader">Score</th>
+	        <th class="topScoreHeader">Level</th>
+			<th class="topScoreHeader">Score</th>
 	    </tr>
 	    <tr>
-	        <td class="highScorer">Jane Doe</td>
-	        <td class="highScore">60</td>
+	        <td id="topscorer1" class="highScorer">Jane Doe</td>
+	        <td id="topScoreLevel1" class="highScorer">Level 10</td>
+	        <td id="topScore1" class="highScore">60</td>
 	    </tr>
 	    <tr>
-	        <td class="highScorer">John Doe</td>
-	        <td class="highScore">40</td>
+	        <td id="topscorer2" class="highScorer">John Doe</td>
+	        <td id="topScoreLevel2" class="highScorer">Level 6</td>
+	        <td id="topScore2" class="highScore">40</td>
 	    </tr>
 	    <tr>
-	        <td class="highScorer">Johnny Doe</td>
-	        <td class="highScore">40</td>
-	    </tr>
-	    <tr>
-	        <td class="highScorer">Name</td>
-	        <td class="highScore">35</td>
+	        <td id="topscorer3" class="highScorer">Johnny Doe</td>
+	        <td id="topScoreLevel3" class="highScorer">Level 6</td>
+	        <td id="topScore3" class="highScore">40</td>
 	    </tr>
 	</table>
 	<script src="/js/jquery-1.11.1.js"></script>
     <script>
+	    //declare variables and set initial conditions
     	var score = 0;
 		var timeoutId = null;
 		var gameTimeId = null;
+		var flashTimeId = null;
 		var timeLeft = 60;
 	    var delay = 1000; // delay time in milliseconds
-	    
-
-	// beginning of background image code
-	// create a circle object
+	    var gameLevel = 1;
+	    var sessionHighScore=0;
+	    var ptsEarned = 10;
+	    var consecutiveBonus = 0;
+	    var bonusPoints = 100;
+	    var levelGoal = 100;
+	    $('#points').hide();
+	    // var clickSounds = new Audio('');
+		// beginning of background image code
 	    var flashTime = 100;
-		cycleBackgroundFrequency();
+     	cycleBackgroundFrequency();
+		// create a circle object
 		var circle = {
 		    radius: 3,
 		    color: 0,
 		    getArea: function () {
-		        // todo: finish this method
-		        // hint: area = pi * radius^2
 		        return Math.PI * Math.pow(this.radius,2);
-		    },
-		    logInfo: function (round) {
-		        // todo: complete this method. if round is true, round the result to the nearest integer.
-		        var area = (round) ? Math.round(this.getArea()) : this.getArea();	
-		        console.log('Area of a circle with radius: ' + this.radius + ', is: ' + area);
 		    },
 		    drawCircle: function (posX, posY) {
 				//draw a circle based on the radius
@@ -90,99 +92,157 @@
 				var ctx = c.getContext("2d");
 				var colors = ["#F00", "#0F0", "#F0F", "#00F"];
 				ctx.beginPath();
-				ctx.arc(posX, posY, this.radius, 0, 2*Math.PI);
+				ctx.arc(posX, posY, this.radius, 0, 2 * Math.PI);
 				ctx.stroke();
-				ctx.fillStyle =colors[this.color];
+				ctx.fillStyle = colors[this.color];
 				ctx.fill();
 		    }
 		};
+
 		function getRandomInt(min, max) {
  			 return Math.floor(Math.random() * (max - min + 1)) + min;
 		};
+
 		function cycleBackgroundFrequency () {
-	        	setInterval(function () {
-				var c = document.getElementById("myCanvas");
-				var ctx = c.getContext("2d");
-				ctx.clearRect(0, 0, c.width, c.height);
-				for (var x=0; x<1700; x+=20) {
-					for (var y=0; y < 1500; y+=20) {
-						circle.radius=getRandomInt(3,10);
-						circle.color=getRandomInt(0,3);
-						circle.drawCircle(x, y);
+        	flashTimeId=setInterval(function () {
+			var c = document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
+			ctx.clearRect(0, 0, c.width, c.height);
+			for (var x = 0; x < 1700; x += 20) {
+				for (var y = 0; y < 1500; y += 20) {
+					circle.radius=getRandomInt(3, 10);
+					circle.color=getRandomInt(0, 3);
+					circle.drawCircle(x, y);
 					};
 				};
 			}, flashTime);
-	        };
+        };
 
 		// end of background image code
 
 		//event listener to start game on btnStart trigger
-		$('#btnStart').click(function () {
-			score=0;
+		$('#btnStart').on('click', function () {
+			$('.manhole').css("background-image","url('/img/manhole.jpeg')");
+			score = 0;
 			$('#displayScore').text(score);
 			gameTimer();
-			showTarget(false);
-		})
-		$('#btnBackground').click(function () {
-			$('#myCanvas').toggle();
-		})
+			showTarget();
+		});
+
 		// randomly shows the target
-		function showTarget (stopGame) {
-			if (stopGame) {
-				clearInterval(timeoutId);
-			}
-			else {
-				var randomPosition = Math.floor(Math.random() * (9)) + 1;
-				$('#manhole'+randomPosition).css("background-image","url('/img/mole.jpeg')");
-				clearInterval(timeoutId);
-				delay = timeLeft*50;
-				showTime(randomPosition, delay);
-				console.log (delay);
-			};
+		function showTarget () {
+			var randomPosition = getRandomInt(1, 9);
+			$('#manhole' + randomPosition).css("background-image","url('/img/mole.jpeg')");
+			clearInterval(timeoutId);
+			showTime(randomPosition, delay);
 		};
-	    //function to evaluate mouse clicks
-	    $('.manhole').click(function () {
+
+	//event listener to show background on btnBackground trigger
+		$('#btnBackground').click(function () {
+			cycleBackgroundFrequency();
+			$('#myCanvas').toggle();
+			}
+		);
+
+	    //event listener to listen for and evaluate mouse clicks
+	    $('.manhole').on('click', function () {
+	    			// console.log($(this).css("background-image"));
 		    	if ($(this).css("background-image")=="url(http://codeup.dev/img/mole.jpeg)"){
-    				score++;
+    				score += (ptsEarned * gameLevel);
+    				consecutiveBonus++;
+    				(consecutiveBonus == 3)?awardBonus():null;
     				$('#displayScore').text(score);
 	        		$(this).css("background-image","url('/img/kapow.jpeg')");	
-	        		//after a half second delay remove the feedback image	
+	        		
+	        		//after 100ms delay remove the feedback image	
         			setTimeout(function () {
         				$(this).css("background-image","url('/img/manhole.jpeg')");	
-        			}, 500);
-        				clearTimeout();
-        		}
-        		else if ($(this).css("background-image")=="url(http://codeup.dev/img/manhole.jpeg)") {
-        			//play miss sound
-        			score--;
-        			$('#displayScore').text(score);
+        			}, 100);
+        			clearTimeout();
+        			showPoints(true);
+        		} else if ($(this).css("background-image")=="url(http://codeup.dev/img/manhole.jpeg)") {
+        			//play miss sound -- future implementation
+        			consecutiveBonus = 0;
+        			if (score > 0) {
+        				score -= ptsEarned;
+        				showPoints(false);
+        			};        			
         		}
     		}
     	);
+
 	    //resets image to manhole cover
 		function showTime(index, delay) {
-			console.log (delay);
-            // clearInterval(timeoutId);
+			clearInterval(timeoutId);
             timeoutId = setInterval(function () {
-                $('#manhole'+index).css("background-image","url('/img/manhole.jpeg')");
-                showTarget(false);		
+                $('#manhole' + index).css("background-image","url('/img/manhole.jpeg')");
+                showTarget();		
             }, delay);
         };
 
         //countdown game timer
         function gameTimer () {
         	gameTimeId=setInterval(function () {
-                if (timeLeft!=0) {
+                if (timeLeft != 0) {
                 	timeLeft--;
-                	// (flashTime>300)?flashTime-=100:flashTime-=300;
 	                $('#timeRemain').text(timeLeft);
                 }
                 else {
                 	alert ('GAME OVER!  Your score is ' + score);
+                	sessionHighScore=(sessionHighScore<score)?score:sessionHighScore;
+                	$('#sessionHighScore').html('Session High Score = ' + sessionHighScore);
+                	delay = 1000; // delay time in milliseconds
+				    gameLevel = 1;
+				    sessionHighScore=0;
+				    ptsEarned = 10;
+				    consecutiveBonus = 0;
+				    bonusPoints = 100;
+				    levelGoal = 100;
+				    score=0;
+                	timeLeft = 60;
 					clearInterval(timeoutId);
 					clearInterval(gameTimeId);
                 };
             }, 1000);
+        };
+
+        //bonus points
+        function awardBonus () {
+        	$('#points').text('(+ ' + (bonusPoints * gameLevel) + ' BONUS pts!!)');
+			$('#points').css('color', 'green');
+			$('#points').fadeIn(250).fadeOut(250);
+			clearInterval();
+			score = score + (bonusPoints * gameLevel);
+			consecutiveBonus = 0;
+			if (score > levelGoal) {
+				delay = levelUp(delay);
+				levelGoal *= 2;
+			};
+        };
+
+        function showPoints(plusPoints) {
+			if (plusPoints) {
+				$('#points').text('(+ ' + (ptsEarned * gameLevel) + ' pts)');
+				$('#points').css('color', 'green');
+			}
+			else {
+    			$('#points').text('(- ' + ptsEarned + ' pts)');
+    			$('#points').css('color', 'red');
+			};
+			$('#displayScore').text(score);
+			$('#points').fadeIn(250).fadeOut(250);
+			if (score > levelGoal) {
+				delay = levelUp(delay);
+				levelGoal *= 2;
+			};
+        };
+        //level up function
+         function levelUp (delay) {
+         	$('#myCanvas').fadeIn(250).fadeOut(2000);
+			clearInterval(flashTimeId);
+			gameLevel++;
+         	$('#currentLevel').html('Level ' + gameLevel);
+         	return delay * 0.9;
         };
     </script>
 </body>
