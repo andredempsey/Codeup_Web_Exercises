@@ -1,9 +1,9 @@
 <?
-//include the AddressDataStore class to read and write to/from address book CSV files
-require_once('classes/address_data_store.php');
+//include the Filestore class to read and write to/from address book CSV files
+require_once('classes/filestore.php');
 $errorMessage='';
 $addressBook=[];
-$address = new AddressDataStore('address_book.csv');
+$address = new Filestore('address_book.csv');
 $addressBook=$address->read();
 
 function removeTags($addedEntry)
@@ -64,7 +64,7 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0)
 	else
 	{
 		// retrieve uploaded file contents
-		$addressUpload = new AddressDataStore($savedFilename);
+		$addressUpload = new Filestore($savedFilename);
 		$newList = $addressUpload->read();
 		$addressBook = array_merge($addressBook,$newList);
 		//append file contents to current todo list
