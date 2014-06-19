@@ -1,0 +1,118 @@
+table {
+	background-color: blue;
+}
+#myCanvas {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	margin-left: 0px;
+	z-index: 0;
+	display: none;
+}
+#currentGame {
+	position: relative;
+	font-weight: bold;
+	color: red;
+	float: left;
+	margin-left: 34px;
+	background-color: white;
+	z-index: 3;
+}
+h3 {
+	position: absolute;
+	top: 150px;
+	margin-top: 0;
+	margin-left: 88px;
+	float: left;
+	z-index: 4;
+}
+#sessionHighScore {
+	top: 200px;
+	margin-left: 30px;
+	color: blue;
+}
+#topScores {
+	position: relative;
+	float: right;
+	width: 500px;
+	background-color: white;
+	z-index: 3;
+}
+#topScores>.displayScore {
+	width: 300px;
+}
+#topScores>.timeRemain {
+	width: 200px;
+}
+.topScoreHeader {
+	background-color: gray;
+}
+#gameboard {
+	position: absolute;
+	width: 800px;
+	height: 600px;
+	margin-left: 250px;
+	z-index: 1;
+}
+#points {
+	position: absolute;
+	z-index: 4;
+	display: nothing;
+	font-size: 100px;
+	color: green;
+	margin-top: 200px;
+	margin-left: 900px;
+}
+span {
+	position: fixed;
+	cursor: pointer;
+	width: 75px;
+	height: 20px;
+	padding: 30px;
+	margin: 10px;
+	background-color: black;
+	border: 3px solid black;
+	color: white;
+	text-align: center;
+	font-weight: bold;	
+	z-index: 3;	
+}
+span:hover {
+
+	opacity: 0.7;
+}
+
+#btnStart {
+	left: 40px;
+	top: 260px;
+}
+
+#btnBackground { 
+	left: 40px;
+	top: 350px;
+	text-align: center;
+}
+#target {
+	position: relative;
+	cursor: pointer;
+	margin-left: 250px;
+	width: 200px;	
+	float: left;
+}
+.manhole {
+	background-image: url("/img/manhole.jpeg");
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 210px;
+	height: 210px;
+	padding: 0;
+	margin:0;
+	float: left;
+	border: 1px solid black;
+	cursor: pointer;
+}
+
+th, tr, td {
+	border: 1px solid black;
+	text-align: center;
+}
