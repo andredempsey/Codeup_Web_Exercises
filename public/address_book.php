@@ -10,7 +10,7 @@ function removeTags($addedEntry)
 {
 	foreach ($addedEntry as $key=>$entry) 
 	{
-		$addedEntry[$key]=(strip_tags($entry));
+		$addedEntry[$key]=htmlspecialchars((strip_tags($entry)));
 	}
 	return $addedEntry;
 }
