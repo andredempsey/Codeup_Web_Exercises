@@ -10,37 +10,35 @@ function removeTags($addedEntry)
 {
 	foreach ($addedEntry as $key=>$entry) 
 	{
-		if ($key == 'Phone') 
-		{
-			$addedEntry[$key]=htmlspecialchars((strip_tags($entry)));
-		}
-		elseif (!empty($entry) && $key == 'Phone' ) 
-		{
-			$addedEntry[$key]=inputValidation(htmlspecialchars((strip_tags($entry))));	
-		}
-		else
-		{
-			$addedEntry[$key]=inputValidation(htmlspecialchars((strip_tags($entry))));	
-		}
+		$addedEntry[$key]=inputValidation(htmlspecialchars((strip_tags($entry))),$key);
 	}
 	return $addedEntry;
 }
 
-function inputValidation($inputValue)
+function inputValidation($inputValue, $key)
 {
-	if (strlen(trim($inputValue)) == '')
+	if ($key != 'Phone') 
 	{
-
-		throw new Exception('Input cannot be null.');
-		
+		if (trim($inputValue) == '')
+		{
+			throw new Exception($key . ' input cannot be null.');
+		}
+		elseif (strlen($inputValue) > 125) 
+		{
+			throw new Exception($key . ' field length cannot exceed 125 characters.');
+		}
+		else
+		{
+			return trim($inputValue);
+		}
 	}
-	elseif (strlen($inputValue) > 125) 
+	elseif (strlen($inputValue) > 125)
 	{
-		throw new Exception('Length of input cannot exceed 125 characters.');
+		throw new Exception($key . ' field length cannot exceed 125 characters.');
 	}
 	else
 	{
-		return $inputValue;
+		return trim($inputValue);
 	}
 }
 
@@ -61,10 +59,17 @@ if (!empty($_POST))
 {
 	if (!checkFields($_POST,$errorMessage)) 
 	{
-		$cleanInput = removeTags($_POST);
-		array_push($addressBook,$cleanInput);
-		$address->write($addressBook);
-		$_POST=[];
+		try 
+		{
+			$cleanInput = removeTags($_POST);
+			array_push($addressBook,$cleanInput);
+			$address->write($addressBook);
+			$_POST=[];
+		} 
+		catch (Exception $e) 
+		{
+			$errorMessage=$e->getMessage();
+		}
 	}
 }
 if (isset($_GET['delete']) && $_GET['delete']!="")
@@ -159,7 +164,7 @@ if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0)
 	        <input type="submit" value="Upload">
 	    </p>
 	</form>
-	<font color="DC143C"><?= $errorMessage;?></font>
+	<font color="DC143C"><?= (is_null($errorMessage))?"":$errorMessage; ?></font>
 	&copy; Andre 2014
 </body>
 </html>
