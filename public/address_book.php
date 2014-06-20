@@ -6,6 +6,8 @@ $addressBook=[];
 $address = new Filestore('address_book.csv');
 $addressBook=$address->read();
 
+class InvalidInputException extends Exception {}
+
 function removeTags($addedEntry)
 {
 	foreach ($addedEntry as $key=>$entry) 
@@ -21,11 +23,11 @@ function inputValidation($inputValue, $key)
 	{
 		if (trim($inputValue) == '')
 		{
-			throw new Exception($key . ' input cannot be null.');
+			throw new InvalidInputException($key . ' input cannot be null.');
 		}
 		elseif (strlen($inputValue) > 125) 
 		{
-			throw new Exception($key . ' field length cannot exceed 125 characters.');
+			throw new InvalidInputException($key . ' field length cannot exceed 125 characters.');
 		}
 		else
 		{
@@ -34,7 +36,7 @@ function inputValidation($inputValue, $key)
 	}
 	elseif (strlen($inputValue) > 125)
 	{
-		throw new Exception($key . ' field length cannot exceed 125 characters.');
+		throw new InvalidInputException($key . ' field length cannot exceed 125 characters.');
 	}
 	else
 	{
@@ -66,7 +68,7 @@ if (!empty($_POST))
 			$address->write($addressBook);
 			$_POST=[];
 		} 
-		catch (Exception $e) 
+		catch (InvalidInputException $e) 
 		{
 			$errorMessage=$e->getMessage();
 		}
