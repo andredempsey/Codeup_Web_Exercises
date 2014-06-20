@@ -10,9 +10,38 @@ function removeTags($addedEntry)
 {
 	foreach ($addedEntry as $key=>$entry) 
 	{
-		$addedEntry[$key]=htmlspecialchars((strip_tags($entry)));
+		if ($key == 'Phone') 
+		{
+			$addedEntry[$key]=htmlspecialchars((strip_tags($entry)));
+		}
+		elseif (!empty($entry) && $key == 'Phone' ) 
+		{
+			$addedEntry[$key]=inputValidation(htmlspecialchars((strip_tags($entry))));	
+		}
+		else
+		{
+			$addedEntry[$key]=inputValidation(htmlspecialchars((strip_tags($entry))));	
+		}
 	}
 	return $addedEntry;
+}
+
+function inputValidation($inputValue)
+{
+	if (strlen(trim($inputValue)) == '')
+	{
+
+		throw new Exception('Input cannot be null.');
+		
+	}
+	elseif (strlen($inputValue) > 125) 
+	{
+		throw new Exception('Length of input cannot exceed 125 characters.');
+	}
+	else
+	{
+		return $inputValue;
+	}
 }
 
 function checkFields($addressEntries, &$errorMessage)
@@ -20,7 +49,7 @@ function checkFields($addressEntries, &$errorMessage)
 	$missingValues=false;
 	foreach ($addressEntries as $key=>$entry) 
 	{
-		if (empty($entry) && $key!='Phone')
+		if (empty($entry) && $key != 'Phone')
 		{
 			$errorMessage .= "Please enter a value for the $key field.\n<br>";
 			$missingValues = true;
