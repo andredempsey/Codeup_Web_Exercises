@@ -34,9 +34,13 @@ if (isset($_GET['Page']))
 	}
 }
 
-$query = "SELECT * FROM national_parks LIMIT {$numRecords} OFFSET {$offsetValue}";
+$query = "SELECT * FROM national_parks LIMIT :numRecs OFFSET :offsetVal";
 
-$stmt = $dbc->query($query);
+$stmt = $dbc->prepare($query);
+
+$stmt->bindValue(':numRecs', $numRecords, PDO::PARAM_INT);
+$stmt->bindValue(':offsetVal', $offsetValue, PDO::PARAM_INT);
+$stmt->execute();
 
 $parks = $stmt->fetchAll(PDO::FETCH_NUM);
 
@@ -47,10 +51,12 @@ if ($results == 0)
 {
 	$pageNumber = $_GET['Page'];
 	$offsetValue = $numRecords * $pageNumber - $numRecords;
-	$query = "SELECT * FROM national_parks LIMIT {$numRecords} OFFSET {$offsetValue}";
-	$stmt = $dbc->query($query);
+	$query = "SELECT * FROM national_parks LIMIT :numRecs OFFSET :offsetVal";
+	$stmt = $dbc->prepare($query);
+	$stmt->bindValue(':numRecs', $numRecords, PDO::PARAM_INT);
+	$stmt->bindValue(':offsetVal', $offsetValue, PDO::PARAM_INT);
+	$stmt->execute();
 	$parks = $stmt->fetchAll(PDO::FETCH_NUM);
-
 }
 
 ?>
@@ -72,6 +78,7 @@ if ($results == 0)
 	        <th>Location</th>
 	        <th>Date Established</th>
 	        <th>Size (Acres)</th>
+	        <th>Description</th>
 	    </tr>
 		<?foreach ($parks as $park) :?>
 		<tr>
