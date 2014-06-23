@@ -1,6 +1,5 @@
 <?php
 
-
 // Get new instance of PDO object
 $dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'andre', 'password');
 
@@ -15,14 +14,22 @@ $pageNumber= 1;
 
 if (isset($_GET['Page']))
 {
-	if ($_GET['Nav'] == 'Next')
-	{	
-		$pageNumber = $_GET['Page'] + 1;
-		$offsetValue = $numRecords * $pageNumber - $numRecords;
+	if (isset($_GET['Nav']))
+	{
+		if ($_GET['Nav'] == 'Next')
+		{	
+			$pageNumber = $_GET['Page'] + 1;
+			$offsetValue = $numRecords * $pageNumber - $numRecords;
+		}
+		else
+		{
+			$pageNumber = ($_GET['Page']>1)?$_GET['Page'] - 1:1;
+			$offsetValue = $numRecords * $pageNumber - $numRecords;
+		}
 	}
 	else
 	{
-		$pageNumber = ($_GET['Page']>1)?$_GET['Page'] - 1:1;
+		$pageNumber = $_GET['Page'];
 		$offsetValue = $numRecords * $pageNumber - $numRecords;
 	}
 }
@@ -34,6 +41,7 @@ $stmt = $dbc->query($query);
 $parks = $stmt->fetchAll(PDO::FETCH_NUM);
 
 $results = $stmt->rowCount();
+$totalPages = ($dbc->query('SELECT * FROM national_parks')->rowCount()/$numRecords);
 
 if ($results == 0) 
 {
@@ -52,10 +60,12 @@ if ($results == 0)
 <head>
 	<meta charset="UTF-8">
 	<title>National Parks</title>
+	<link href="/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-	<p>Total number of results: <?=$results?></p>
-	<table border = "1">
+	<h1 style="text-align: center">National Parks</h1>
+	<div class = "container">
+		<table class = "table table-striped" border = "1">
 	    <tr>
 	        <th>id</th>
 	        <th>Name</th>
@@ -63,18 +73,25 @@ if ($results == 0)
 	        <th>Date Established</th>
 	        <th>Size (Acres)</th>
 	    </tr>
-	<?foreach ($parks as $park) :?>
+		<?foreach ($parks as $park) :?>
 		<tr>
-		<?foreach ($park as $attrib =>$value) :?>
-			<td><?=$value;?></td>
-		<?endforeach;?>
+			<?foreach ($park as $attrib =>$value) :?>
+				<td><?=$value;?></td>
+			<?endforeach;?>
 		</tr>
-	<?endforeach;?>
+		<?endforeach;?>
 	</table>
 	<form method="GET" action="/national_parks.php">
-		<a href="national_parks.php?Nav=Prev&Page=<?=$pageNumber?>">Prev Page</a>
-		<p>Currently on page <?=$pageNumber?></p>
-		<a href="national_parks.php?Nav=Next&Page=<?=$pageNumber?>">Next Page</a>
+		<div style ="text-align: center"><ul class="pagination">
+		  <li><a href="national_parks.php?Nav=Prev&Page=<?=$pageNumber?>">&laquo;</a></li>
+		  	<?for ($i = 1; $i <= ceil($totalPages); $i++) : ?>
+		  	<li><a href="national_parks.php?Page=<?=$i?>"><?=$i?></a></li>
+			<?endfor;?>
+		  <li><a href="national_parks.php?Nav=Next&Page=<?=$pageNumber?>">&raquo;</a></li>
+		</ul>
+		</div>
 	</form>
+	<p style="text-align: center">You are viewing <?=$results?> of <?=$totalPages*$numRecords?> total results.</p>
+	</div>
 </body>
 </html>
