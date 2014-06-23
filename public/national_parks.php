@@ -7,19 +7,43 @@ $dbc = new PDO('mysql:host=127.0.0.1;dbname=codeup_pdo_test_db', 'andre', 'passw
 // Tell PDO to throw exceptions on error
 $dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
+// echo $dbc->getAttribute(PDO::ATTR_CONNECTION_STATUS) . "\n";
 
 $numRecords = 4;
-$pageNumber= 0;
-// function buildQuery($records=)
-// {
-// 	# code...
-// }
-$query = "SELECT * FROM national_parks LIMIT {$numRecords} OFFSET {$pageNumber}";
+$offsetValue = 0;
+$pageNumber= 1;
+
+if (isset($_GET['Page']))
+{
+	if ($_GET['Nav'] == 'Next')
+	{	
+		$pageNumber = $_GET['Page'] + 1;
+		$offsetValue = $numRecords * $pageNumber - $numRecords;
+	}
+	else
+	{
+		$pageNumber = ($_GET['Page']>1)?$_GET['Page'] - 1:1;
+		$offsetValue = $numRecords * $pageNumber - $numRecords;
+	}
+}
+
+$query = "SELECT * FROM national_parks LIMIT {$numRecords} OFFSET {$offsetValue}";
 
 $stmt = $dbc->query($query);
+
 $parks = $stmt->fetchAll(PDO::FETCH_NUM);
+
 $results = $stmt->rowCount();
+
+if ($results == 0) 
+{
+	$pageNumber = $_GET['Page'];
+	$offsetValue = $numRecords * $pageNumber - $numRecords;
+	$query = "SELECT * FROM national_parks LIMIT {$numRecords} OFFSET {$offsetValue}";
+	$stmt = $dbc->query($query);
+	$parks = $stmt->fetchAll(PDO::FETCH_NUM);
+
+}
 
 ?>
 
@@ -48,8 +72,9 @@ $results = $stmt->rowCount();
 	<?endforeach;?>
 	</table>
 	<form method="GET" action="/national_parks.php">
-		<a href="">Previous Page</a>
-		<a href="">Next Page</a>
+		<a href="national_parks.php?Nav=Prev&Page=<?=$pageNumber?>">Prev Page</a>
+		<p>Currently on page <?=$pageNumber?></p>
+		<a href="national_parks.php?Nav=Next&Page=<?=$pageNumber?>">Next Page</a>
 	</form>
 </body>
 </html>
