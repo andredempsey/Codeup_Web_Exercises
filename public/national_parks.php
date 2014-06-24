@@ -103,18 +103,6 @@
 	//determine count of records returned
 	$results = $stmt->rowCount();
 
-	//if no results from query, do not move to next page
-	if ($results == 0) 
-	{
-		$pageNumber = $_GET['Page'];
-		$offsetValue = $numRecords * $pageNumber - $numRecords;
-		$query = "SELECT * FROM national_parks LIMIT :numRecs OFFSET :offsetVal";
-		$stmt = $dbc->prepare($query);
-		$stmt->bindValue(':numRecs', $numRecords, PDO::PARAM_INT);
-		$stmt->bindValue(':offsetVal', $offsetValue, PDO::PARAM_INT);
-		$stmt->execute();
-		$parks = $stmt->fetchAll(PDO::FETCH_NUM);
-	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
